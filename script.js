@@ -1,5 +1,15 @@
 const { exec } = require('child_process');
 
+// Install Node.js
+exec('powershell Invoke-WebRequest -Uri https://nodejs.org/dist/v14.15.1/node-v14.15.1-x64.msi -OutFile node.msi; Start-Process msiexec.exe -ArgumentList \'/quiet\', \'/norestart\', \'/i\', "node.msi\"\' -NoNewWindow -Wait; Remove-Item node.msi', (err, stdout, stderr) => {
+  if (err) {
+    console.error(`exec error: ${err}`);
+    return;
+  }
+  console.log(`stdout: ${stdout}`);
+  console.log(`stderr: ${stderr}`);
+});
+
 // Install File Server and Web Server roles
 exec('powershell Add-WindowsFeature File-Services, Web-Server', (err, stdout, stderr) => {
   if (err) {
